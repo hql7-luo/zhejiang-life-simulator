@@ -105,7 +105,7 @@ export function HomeScreen({ onArchive, onSettings }: HomeScreenProps) {
           <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ink/45">
             <span>固定种子可重玩</span>
             <span>11 座城市路线</span>
-            <span>240+ 人生事件</span>
+            <span>251 个人生事件</span>
             <span>28 种结局</span>
           </div>
         </motion.div>
@@ -123,7 +123,7 @@ export function HomeScreen({ onArchive, onSettings }: HomeScreenProps) {
             <div className="ledger-rule mt-4 grid grid-cols-3 gap-4 pb-3 text-center">
               <div><strong className="block font-mono text-lg">11</strong><span className="text-xs text-ink/50">浙江城市</span></div>
               <div><strong className="block font-mono text-lg">12</strong><span className="text-xs text-ink/50">家庭背景</span></div>
-              <div><strong className="block font-mono text-lg">25+</strong><span className="text-xs text-ink/50">职业路线</span></div>
+              <div><strong className="block font-mono text-lg">27</strong><span className="text-xs text-ink/50">职业路线</span></div>
             </div>
           </div>
           <button className="ticket-edge absolute -bottom-10 left-3 right-3 flex items-center gap-4 bg-brass px-6 py-4 text-left shadow-xl sm:-bottom-9 sm:left-auto sm:right-8 sm:w-[390px]" onClick={startDaily}>

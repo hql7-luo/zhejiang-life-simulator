@@ -1,90 +1,104 @@
-# 浙江人生模拟器 · Zhejiang Life Simulator
+# Zhejiang Life Simulator · 浙江人生模拟器
 
-一款以当代浙江十一座城市为背景的选择驱动型人生模拟游戏。随机出生在杭州、宁波、温州、嘉兴、湖州、绍兴、金华、衢州、舟山、台州、丽水之一，从 6 岁走到 80+ 岁：中考高考、留杭还是回乡、接手家里的厂还是走自己的路、买房还是租房、创业还是编制……每个选择都会改变后续人生，最终生成一份完整的「浙江人生档案」。
+[简体中文](README.zh-CN.md) · [Live demo](https://zhejiang-life-simulator.vercel.app)
 
-本项目基于 [china-life-simulator](https://github.com/hql7-luo/china-life-simulator) 的底层系统二次开发，城市、家庭产业、职业、事件、结局与视觉全部围绕浙江重新设计。
+A seedable, choice-driven life simulation game about cities, industries, migration, and everyday life in Zhejiang, China.
 
-## 玩法
+![Zhejiang Life Simulator home screen](docs/screenshots/home.png)
 
-- **随机浙江人生**：接受一手随机牌，出生城市与家庭背景由种子决定
-- **自定义出生**：自选城市、家庭背景、性格与天赋
-- **今日浙江人生**：全服同一种子的每日同题挑战
-- **城市挑战**：指定一座城市出生，看看这把牌能打成什么样
-- **成就与图鉴**：24 个成就、27 种结局、230+ 事件等待收集
+## At a glance
 
-## 浙江专属系统
+| Content | Scale |
+| --- | ---: |
+| Life events | 251 registered events: 246 original narrative events plus 5 release-quality balance and recovery events |
+| Endings | 28 |
+| Achievements | 24 |
+| Careers | 27 |
+| Family backgrounds | 12 |
+| Birth cities | 11 prefecture-level cities in Zhejiang |
+| Migratable locations | 14 |
+| Automated tests | 70 |
+| Ending simulations | 1,100 seeded playthroughs; 28/28 endings reached |
 
-| 系统 | 说明 |
-| --- | --- |
-| 城市系统 | 11 个地级市 + 上海/深圳/海外去向，各有生活成本、房价系数、教育资源、产业与职业市场 |
-| 家庭背景 | 12 类浙江特色家庭（小制造厂、外贸、档口、港航、电商、农家……），影响初始资源与事件概率 |
-| 城市迁移 | 记录出生/求学/工作城市与迁移路线，影响生活成本、收入、压力、家庭关系与后续事件 |
-| 地方产业 | 模具、汽配、纺织、港航、小商品、跨境电商、直播、农产品品牌等 16 类产业与 25 种职业 |
-| 隐藏属性 | 家庭产业、本地人脉、专业技能、城市适应、创业经验、家庭责任、风险承受——不直接显示，但影响事件与结局 |
-| 浙江结局 | 27 种结局：杭漂十年、外贸生意人、负债老板、回乡创业者、县城幸福生活……综合财富/健康/家庭/事业判定 |
+## Core gameplay
 
-## 技术栈
+- Start with a random, custom, city-specific, or daily seeded life.
+- Make choices across education, work, entrepreneurship, housing, relationships, family, migration, and retirement.
+- Watch those choices change attributes, savings, debt, career history, relationships, tags, and the final ending.
+- Replay a fixed seed, complete daily challenges, and unlock the city, career, achievement, and ending archive.
 
-Next.js 15 · TypeScript · Tailwind CSS · Zustand (persist/localStorage) · Framer Motion · Vitest · html-to-image
+## What makes it Zhejiang
 
-## 目录结构
+- Eleven Zhejiang birth cities with different living costs, housing prices, education resources, industries, and career markets.
+- Migration routes covering Hangzhou, other Zhejiang cities, Shanghai, Shenzhen, and overseas development.
+- Family-business succession and local industries such as manufacturing, foreign trade, e-commerce, port logistics, textiles, auto parts, molds, livestream commerce, and Yiwu small-commodity trade.
+- A migration map and residence-duration history that influence events, achievements, challenges, and endings.
 
-```text
-data/
-└── regions/
-    └── zhejiang/
-        ├── cities.ts            # 11 市 + 3 省外去向的 CityProfile
-        ├── birth-profiles.ts    # 12 类家庭背景
-        ├── careers.ts           # 25 种职业（含浙江特色职业）
-        ├── achievements.ts      # 24 个成就
-        ├── endings.ts           # 27 个结局
-        ├── tags.ts              # 全局标签注册表
-        └── events/
-            ├── common.ts        # 浙江通用事件 60（含 16 个里程碑）
-            ├── hangzhou.ts      # 杭州 25
-            ├── ningbo.ts        # 宁波 20
-            ├── wenzhou.ts       # 温州 20
-            ├── jinhua.ts        # 金华·义乌 20
-            ├── taizhou.ts       # 台州 25
-            ├── other-cities.ts  # 嘉湖绍衢舟丽 54
-            └── hidden.ts        # 隐藏事件 20
-game/
-├── random.ts      # 固定随机种子
-├── birth.ts       # 加权城市出生 + 家庭背景
-├── migration.ts   # 城市迁移与居住年数
-├── economy.ts     # 城市生活成本 + 产业匹配收入
-├── conditions.ts  # 事件/成就/结局条件（含地域条件）
-├── effects.ts     # 选择后果、买房房价系数、迁移记录
-├── events.ts      # 里程碑优先的事件选择器
-└── endings.ts     # 结局与浙江人生关键词
-```
+## Technology
 
-统一类型：`CityProfile`、`RegionPack`、`MigrationRecord`、`LocalIndustry`、`RegionalEventCondition`（见 `types/game.ts`）。城市判断集中在 `data/regions/zhejiang/` 与 `game/migration.ts`，不写死在 React 组件中。
+Next.js 15 · TypeScript · Tailwind CSS · Zustand with localStorage persistence · Framer Motion · Vitest · html-to-image · pnpm · Node.js 22
 
-## 本地运行
+## Quick start
 
 ```bash
+git clone https://github.com/hql7-luo/zhejiang-life-simulator.git
+cd zhejiang-life-simulator
+corepack enable
 pnpm install
-pnpm dev      # http://localhost:3000
+pnpm dev
 ```
 
-## 质量
+Open <http://localhost:3000>.
+
+## Verification
 
 ```bash
 pnpm lint
 pnpm test
 pnpm build
+pnpm simulate:endings
 ```
 
-测试覆盖：固定 seed 一致性、城市出生加权分布、城市事件触发、城市迁移与居住年数、城市生活成本与产业收入、家庭产业路线、职业与转行、买房房价系数与负债、成就解锁、浙江结局计算、localStorage 存档、整局玩通（多策略多城市）。
+The v1.0.0 release baseline is zero ESLint warnings or errors, 70 passing tests, a successful Next.js production build with five static routes, and 1,100 simulated playthroughs reaching all 28 endings. Coverage includes full-playthrough automation, daily-challenge evaluation, economic balance, repeated-event cooldowns, and localStorage persistence.
 
-## 设计原则
+## Project structure
 
-- 城市与家庭只影响**资源与概率**，不直接决定成功或失败
-- 避免地域刻板印象；每个事件的 2-4 个选择都有实质不同的后果
-- 结局不只看财富，还综合健康、快乐、家庭、事业、关系、资产、负债与人生选择
-- 所有人物与故事均为虚构；模拟不构成人生建议
+```text
+app/                         Next.js entry point and metadata
+components/                  Screens, panels, and game UI
+data/regions/zhejiang/       Cities, backgrounds, careers, events, endings, achievements
+game/                        Seeded engine, conditions, effects, economy, migration, endings
+store/                       Zustand state and browser persistence
+tests/                       Vitest unit, integration, balance, and playthrough tests
+scripts/simulate-endings.ts  Seeded ending-reachability audit
+types/                       Shared domain types
+utils/                       Formatting and storage helpers
+```
+
+## Extending the simulation
+
+- **Add an event:** place a typed event in the appropriate file under `data/regions/zhejiang/events/`, export it through `events/index.ts`, and add tests for its conditions, effects, and source tags.
+- **Add a career:** update the `JobId` type, add the career to `data/regions/zhejiang/careers.ts`, then connect it to relevant events, industries, and ending conditions.
+- **Add an ending:** add the ending to `data/regions/zhejiang/endings.ts`, give it a deliberate priority and reachable conditions, then extend the ending tests and rerun `pnpm simulate:endings`.
+
+## Deployment
+
+The project is configured for Vercel with the Next.js framework preset, pnpm, Node.js 22, and `main` as the production branch. It requires no environment variables. Import `hql7-luo/zhejiang-life-simulator` in Vercel or run the Vercel CLI from the repository root.
+
+## Storage and image export
+
+Game saves are stored in the current browser's `localStorage`; cross-device synchronization is not supported. PNG report export includes code-level compatibility handling for long canvases and browser rendering. Desktop-browser export is verified for the release, while long-image downloads on a physical iPhone running Safari still require manual device verification.
+
+## Disclaimer and known simplifications
+
+All characters and stories are fictional. Income, housing prices, education, careers, industries, and life events are simplified for entertainment and are not financial, career, or life advice. City and family background affect resources and probabilities; they do not determine success or failure.
+
+## Roadmap
+
+- More events, regional routes, and long-term family stories.
+- Broader accessibility and physical-device browser coverage.
+- Optional import/export for saves without introducing an account requirement.
 
 ## License
 
-MIT（与原项目一致）
+[MIT](LICENSE)

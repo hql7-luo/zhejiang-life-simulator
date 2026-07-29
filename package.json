@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@11.9.0",
   "engines": {
-    "node": ">=22.13.0"
+    "node": "22.x"
   },
   "description": "A seedable, choice-driven life simulation game set in contemporary Zhejiang, China.",
   "scripts": {
