@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --paper: #f3efe5;
+  --paper-deep: #e6dfd0;
+  --ink: #1b2a35;
+  --muted: #65727b;
+  --cinnabar: #c53d32;
+  --jade: #2d7a67;
+  --ledger: #50657b;
+  --brass: #d3a64a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--paper);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(27, 42, 53, 0.025) 1px, transparent 1px),
+    linear-gradient(rgba(27, 42, 53, 0.025) 1px, transparent 1px),
+    var(--paper);
+  background-size: 24px 24px;
+  font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: white;
+  background: var(--cinnabar);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(197, 61, 50, 0.45);
+  outline-offset: 3px;
+}
+
+.paper-card {
+  position: relative;
+  border: 1px solid rgba(27, 42, 53, 0.16);
+  background:
+    radial-gradient(rgba(27, 42, 53, 0.06) 0.55px, transparent 0.55px),
+    rgba(251, 248, 239, 0.96);
+  background-size: 5px 5px;
+  box-shadow: 0 18px 50px rgba(27, 42, 53, 0.1);
+}
+
+.ticket-edge {
+  --notch: radial-gradient(circle at 0 50%, transparent 7px, #000 7.5px);
+  -webkit-mask-image: var(--notch);
+  mask-image: var(--notch);
+  -webkit-mask-size: 100% 18px;
+  mask-size: 100% 18px;
+}
+
+.stamp {
+  display: inline-grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  color: var(--cinnabar);
+  font-family: STKaiti, KaiTi, "Kaiti SC", serif;
+  font-weight: 700;
+  line-height: 1;
+  transform: rotate(-4deg);
+}
+
+.ledger-rule {
+  border-bottom: 1px solid rgba(27, 42, 53, 0.14);
+  background-image: linear-gradient(to right, rgba(27, 42, 53, 0.06) 1px, transparent 1px);
+  background-size: 8px 100%;
+}
+
+.choice-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(27, 42, 53, 0.18);
+  background: rgba(255, 253, 247, 0.88);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.choice-card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  content: "";
+  background: var(--cinnabar);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 180ms ease;
+}
+
+.choice-card:hover {
+  border-color: rgba(197, 61, 50, 0.55);
+  background: white;
+  transform: translateY(-2px);
+}
+
+.choice-card:hover::before {
+  transform: scaleY(1);
+}
+
+.attribute-track {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(27, 42, 53, 0.1);
+}
+
+.attribute-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--jade);
+}
+
+.attribute-fill.is-stress {
+  background: var(--cinnabar);
+}
+
+.safe-bottom {
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 1024px) {
+  .safe-bottom {
+    padding-bottom: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
