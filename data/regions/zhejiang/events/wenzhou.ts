@@ -100,7 +100,7 @@ export const wenzhouEvents: LifeEvent[] = [
     years: 2,
     condition: { minAge: 20, maxAge: 28, jobs: ["student", "unemployed", "service"], locations: ["wenzhou"] },
     choices: [
-      { id: "buy", text: "借点钱盘下来，自己当老板", effects: { attributes: { career: 6, entrepreneurship: 8, stress: 5, riskTolerance: 5 }, savings: -50000, debt: 30000, jobId: "self-employed", addTags: ["创业者"] } },
+      { id: "buy", text: "借点钱盘下来，自己当老板", effects: { attributes: { career: 6, entrepreneurship: 8, stress: 5, riskTolerance: 5 }, savings: -50000, businessDebt: 30000, jobId: "self-employed", addTags: ["创业者"] } },
       { id: "learn", text: "先去别人档口帮工，学门道", effects: { attributes: { skill: 4, localNetwork: 4, money: 2 }, jobId: "service" } },
       { id: "stable", text: "算了，找份稳当工作", effects: { attributes: { career: 3, stress: -2 }, jobId: "service" } },
     ],
@@ -143,7 +143,7 @@ export const wenzhouEvents: LifeEvent[] = [
     years: 3,
     condition: { minAge: 24, maxAge: 35, jobs: ["trade", "manufacturing", "self-employed", "commodity-trader", "skilled-worker"], locations: ["wenzhou"] },
     choices: [
-      { id: "allin", text: "押上全部身家，干", effects: { attributes: { career: 10, entrepreneurship: 10, stress: 8, riskTolerance: 6 }, savings: -200000, debt: 100000, jobId: "factory-owner", addTags: ["创业者", "开厂"] } },
+      { id: "allin", text: "押上全部身家，干", effects: { attributes: { career: 10, entrepreneurship: 10, stress: 8, riskTolerance: 6 }, savings: -200000, businessDebt: 100000, jobId: "factory-owner", addTags: ["创业者", "开厂"] } },
       { id: "half", text: "先租半个车间试水", effects: { attributes: { career: 6, entrepreneurship: 6, stress: 4 }, savings: -80000, jobId: "self-employed", addTags: ["创业者"] } },
       { id: "wait", text: "行情不明，再看看", effects: { attributes: { stress: -2, riskTolerance: -2 }, addTags: ["观望"] } },
     ],
@@ -157,7 +157,7 @@ export const wenzhouEvents: LifeEvent[] = [
     years: 3,
     condition: { minAge: 30, maxAge: 48, jobs: ["factory-owner"], locations: ["wenzhou"] },
     choices: [
-      { id: "auto", text: "贷款上自动化产线", effects: { attributes: { career: 8, stress: 8, riskTolerance: 5 }, debt: 500000, investment: 600000, addTags: ["扩厂"] } },
+      { id: "auto", text: "贷款上自动化产线", effects: { attributes: { career: 8, stress: 8, riskTolerance: 5 }, businessDebt: 500000, investment: 600000, addTags: ["扩厂"] } },
       { id: "slow", text: "添两台机器，小步慢走", effects: { attributes: { career: 5, stress: 3 }, savings: -150000, investment: 150000, addTags: ["保守经营"] } },
       { id: "keep", text: "维持现状，守住利润", effects: { attributes: { money: 4, stress: -3 }, addTags: ["保守经营"] } },
     ],
@@ -270,8 +270,8 @@ export const wenzhouEvents: LifeEvent[] = [
     years: 2,
     condition: { minAge: 33, maxAge: 50, jobs: ["factory-owner", "self-employed", "commodity-trader"], locations: ["wenzhou"], chance: 0.5 },
     choices: [
-      { id: "repay", text: "卖房卖车，先把债还上", effects: { attributes: { stress: 8, career: -3, localNetwork: 6, family: -3 }, savings: -250000, debt: -200000, addTags: ["守住信用"] } },
-      { id: "extend", text: "一家家银行谈展期", effects: { attributes: { stress: 6, career: -2, emotional: 3 }, debt: 50000, addTags: ["债务缠身"] } },
+      { id: "repay", text: "卖房卖车，先把债还上", effects: { attributes: { stress: 8, career: -3, localNetwork: 6, family: -3 }, savings: -250000, businessDebt: -200000, addTags: ["守住信用"] } },
+      { id: "extend", text: "一家家银行谈展期", effects: { attributes: { stress: 6, career: -2, emotional: 3 }, businessDebt: 50000, addTags: ["债务缠身"] } },
       { id: "close", text: "关厂止损，留得青山在", effects: { attributes: { career: -6, stress: -4, happiness: 2, entrepreneurship: -3 }, jobId: "unemployed", addTags: ["从头再来"] } },
     ],
   },

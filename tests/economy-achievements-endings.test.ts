@@ -97,9 +97,23 @@ describe("经济、成就与结局", () => {
     const player = initializePlayer(birthFixture);
     player.age = 60;
     player.tags.push("扩厂", "负债经营");
-    player.assets.otherDebt = 900000;
+    player.assets.businessDebt = 1_200_000;
+    player.attributes.stress = 60;
     const result = calculateEnding(player, []);
     expect(result.ending.id).toBe("debt-boss");
+  });
+
+  it("仅有正常房贷、财务健康的玩家不会被误判为负债老板", () => {
+    const player = initializePlayer(birthFixture);
+    player.age = 55;
+    player.tags.push("扩厂", "负债经营");
+    // 杭州正常按揭：房贷 150 万但非房贷负债为 0、压力正常
+    player.assets.mortgage = 1_500_000;
+    player.attributes.stress = 30;
+    player.attributes.happiness = 80;
+    player.attributes.family = 80;
+    const result = calculateEnding(player, []);
+    expect(result.ending.id).not.toBe("debt-boss");
   });
 
   it("退休后仍会按完整职业履历判断职业类结局", () => {

@@ -77,7 +77,7 @@ export const hiddenEvents: LifeEvent[] = [
     condition: { minAge: 18, maxAge: 40, birthLocations: ["wenzhou"], chance: 0.5 },
     choices: [
       { id: "go", text: "跟他去意大利，从车间学起", effects: { attributes: { riskTolerance: 8, money: 6, cityAdapt: 6, stress: 7 }, moveTo: "overseas", moveReason: "去意大利投奔表舅", addTags: ["海外闯荡"], savings: 100000 } },
-      { id: "partner", text: "留在国内，做他的国内供应链", effects: { attributes: { network: 8, localNetwork: 6, money: 7, career: 5 }, savings: 200000, addTags: ["海外归来", "外贸第一单"] } },
+      { id: "partner", text: "留在国内，做他的国内供应链", effects: { attributes: { network: 8, localNetwork: 6, money: 7, career: 5 }, savings: 200000, addTags: ["侨乡人脉", "外贸第一单"] } },
       { id: "decline", text: "敬他一杯酒，路还是自己走", effects: { attributes: { emotional: 3, happiness: 2 } } },
     ],
   },
@@ -91,7 +91,7 @@ export const hiddenEvents: LifeEvent[] = [
     rare: true,
     condition: { minAge: 30, maxAge: 50, locations: ["hangzhou", "huzhou", "lishui"], chance: 0.4 },
     choices: [
-      { id: "quit-do", text: "辞职进山，把后半生押给这片山", effects: { attributes: { happiness: 10, stress: 6, riskTolerance: 8, health: 5, career: -6 }, debt: 400000, jobId: "self-employed", addTags: ["慢生活", "多次创业"] } },
+      { id: "quit-do", text: "辞职进山，把后半生押给这片山", effects: { attributes: { happiness: 10, stress: 6, riskTolerance: 8, health: 5, career: -6 }, businessDebt: 400000, jobId: "self-employed", addTags: ["慢生活", "多次创业"] } },
       { id: "invest", text: "只入股不辞职，周末去帮忙", effects: { attributes: { happiness: 5, network: 4, stress: 2 }, investment: 150000 } },
       { id: "visit", text: "常去住几天就好，梦是别人的", effects: { attributes: { happiness: 4, stress: -3 }, savings: -3000 } },
     ],
@@ -182,7 +182,7 @@ export const hiddenEvents: LifeEvent[] = [
     condition: { minAge: 24, maxAge: 50, jobs: ["trade", "ecommerce-ops", "cross-border", "self-employed", "factory-owner", "family-successor"], chance: 0.5 },
     choices: [
       { id: "digital", text: "all in 线上，把生意彻底搬到云端", effects: { attributes: { skill: 8, network: 6, money: 6, stress: 6 }, savings: 200000, addTags: ["数字游民", "高压生存者"] } },
-      { id: "endure", text: "勒紧裤腰带硬扛，一个客户都不丢", effects: { attributes: { stress: 9, health: -5, network: 5, emotional: 4 }, debt: 100000, addTags: ["高压生存者"] } },
+      { id: "endure", text: "勒紧裤腰带硬扛，一个客户都不丢", effects: { attributes: { stress: 9, health: -5, network: 5, emotional: 4 }, businessDebt: 100000, addTags: ["高压生存者"] } },
       { id: "pause", text: "按下暂停键，保住身体和家人", effects: { attributes: { health: 5, family: 5, career: -4, stress: -4 }, addTags: ["慢生活"] } },
     ],
   },
@@ -239,7 +239,7 @@ export const hiddenEvents: LifeEvent[] = [
     stage: "职业",
     years: 1,
     rare: true,
-    condition: { minAge: 20, maxAge: 40, jobs: ["mold-tech", "skilled-worker", "manufacturing", "auto-parts", "family-successor"], industries: ["mold-cnc", "manufacturing", "auto-parts"], chance: 0.5 },
+    condition: { minAge: 20, maxAge: 40, jobs: ["mold-tech", "skilled-worker", "manufacturing", "auto-parts", "family-successor"], chance: 0.6 },
     choices: [
       { id: "shadow", text: "寸步不离跟着学，连他拧螺丝的角度都记下", effects: { attributes: { skill: 12, intelligence: 5, career: 5 }, addTags: ["高级技师", "师承"], annualIncome: 80000 } },
       { id: "translate", text: "主动当翻译，把人和技术都变成人脉", effects: { attributes: { network: 7, emotional: 5, skill: 5, career: 4 }, addTags: ["技术能手"] } },

@@ -12,7 +12,7 @@ export const endings: Ending[] = [
     quote: "规模是别人的掌声，现金流才是自己的命。",
     rarity: "稀有",
     priority: 100,
-    condition: { requiredTags: ["扩厂", "负债经营"], minDebt: 800000 },
+    condition: { requiredTags: ["扩厂", "负债经营"], minDebt: 1000000, minAttributes: { stress: 50 } },
   },
   {
     id: "early-retiree",
@@ -21,7 +21,7 @@ export const endings: Ending[] = [
     quote: "财富最好的用途，是让时间重新属于自己。",
     rarity: "传说",
     priority: 99,
-    condition: { requiredTags: ["提前退休"], minSavings: 1000000, minAttributes: { happiness: 60 } },
+    condition: { requiredTags: ["提前退休"], minSavings: 1600000, minAttributes: { happiness: 60 } },
   },
   {
     id: "cross-border-founder",
@@ -30,7 +30,7 @@ export const endings: Ending[] = [
     quote: "世界很大，从一个店铺后台也能抵达。",
     rarity: "稀有",
     priority: 97,
-    condition: { requiredTags: ["跨境爆单"], minSavings: 400000, jobs: ["cross-border", "startup", "ecommerce-ops"] },
+    condition: { requiredTags: ["跨境爆单"] },
   },
   {
     id: "serial-entrepreneur",
@@ -39,7 +39,7 @@ export const endings: Ending[] = [
     quote: "没有永远的顺风，只有反复校准的航向。",
     rarity: "传说",
     priority: 96,
-    condition: { requiredTags: ["多次创业", "创业者"], minAttributes: { career: 72, entrepreneurship: 55 } },
+    condition: { requiredTags: ["多次创业", "创业者"], minAttributes: { career: 55, entrepreneurship: 30 } },
   },
   {
     id: "hz-internet-veteran",
@@ -75,7 +75,7 @@ export const endings: Ending[] = [
     quote: "诚信是最便宜的运费，也是最贵的资产。",
     rarity: "少见",
     priority: 91,
-    condition: { requiredTags: ["外贸第一单"], jobs: ["trade"], minSavings: 350000, minAttributes: { career: 55 } },
+    condition: { requiredTags: ["外贸第一单"], jobs: ["trade"], minSavings: 60000, minAttributes: { career: 35 } },
   },
   {
     id: "rich-but-tired",
@@ -93,7 +93,7 @@ export const endings: Ending[] = [
     quote: "毫厘之间，自有一生。",
     rarity: "稀有",
     priority: 89,
-    condition: { requiredTags: ["高级技师"], jobs: ["mold-tech", "skilled-worker", "manufacturing"] },
+    condition: { requiredTags: ["高级技师"], minAttributes: { skill: 40 } },
   },
   {
     id: "manufacturing-pragmatist",
@@ -102,7 +102,7 @@ export const endings: Ending[] = [
     quote: "把一件事做三十年，本身就是一种答案。",
     rarity: "少见",
     priority: 88,
-    condition: { jobs: ["manufacturing", "factory-owner"], minAttributes: { career: 68, skill: 50 }, minAge: 55 },
+    condition: { jobs: ["manufacturing", "factory-owner"], minAttributes: { career: 60, skill: 45 }, minAge: 55 },
   },
   {
     id: "livestream-star",
@@ -110,8 +110,8 @@ export const endings: Ending[] = [
     summary: "从对着手机自言自语，到一呼百应的直播间。你把表达力做成了生意。",
     quote: "镜头很小，装得下一整个人生。",
     rarity: "稀有",
-    priority: 87,
-    condition: { requiredTags: ["直播达人"], jobs: ["livestream"], minSavings: 300000 },
+    priority: 95,
+    condition: { requiredTags: ["直播达人"] },
   },
   {
     id: "port-logistics-manager",
@@ -120,7 +120,7 @@ export const endings: Ending[] = [
     quote: "世界贸易的尽头，是码头上一个个具体的人。",
     rarity: "少见",
     priority: 86,
-    condition: { jobs: ["logistics"], minAttributes: { career: 62 }, locations: ["ningbo", "zhoushan", "shanghai"] },
+    condition: { jobs: ["logistics"], minAttributes: { career: 45 }, locations: ["ningbo", "zhoushan", "shanghai"] },
   },
   {
     id: "commodity-boss",
@@ -129,7 +129,7 @@ export const endings: Ending[] = [
     quote: "摊不在大，有信则灵。",
     rarity: "少见",
     priority: 85,
-    condition: { jobs: ["commodity-trader"], minSavings: 280000, minAttributes: { localNetwork: 40 } },
+    condition: { jobs: ["commodity-trader"], minSavings: 80000, minAttributes: { localNetwork: 28 } },
   },
   {
     id: "homecoming-founder",
@@ -147,7 +147,7 @@ export const endings: Ending[] = [
     quote: "最好的品牌故事，写在土地上。",
     rarity: "稀有",
     priority: 83,
-    condition: { jobs: ["agri-founder"], minAttributes: { career: 55, happiness: 55 } },
+    condition: { jobs: ["agri-founder"], minAttributes: { career: 20, happiness: 55 } },
   },
   {
     id: "shanghai-returnee",
@@ -165,7 +165,7 @@ export const endings: Ending[] = [
     quote: "走得再远，也走不出一张乡音的网。",
     rarity: "稀有",
     priority: 81,
-    condition: { requiredTags: ["海外归来"], education: ["海外留学", "研究生"] },
+    condition: { minYearsInLocation: { location: "overseas", years: 3 }, locations: ["hangzhou", "ningbo", "wenzhou", "jiaxing", "huzhou", "shaoxing", "jinhua", "quzhou", "zhoushan", "taizhou", "lishui"] },
   },
   {
     id: "digital-nomad",
@@ -174,7 +174,7 @@ export const endings: Ending[] = [
     quote: "自由不是不工作，是选择在哪里工作。",
     rarity: "稀有",
     priority: 80,
-    condition: { requiredTags: ["数字游民"], minLivedLocations: 4, minAttributes: { happiness: 60 } },
+    condition: { requiredTags: ["数字游民"], minLivedLocations: 3, minAttributes: { happiness: 50 } },
   },
   {
     id: "free-freelancer",
@@ -201,7 +201,7 @@ export const endings: Ending[] = [
     quote: "有些价值，无法用账户余额衡量。",
     rarity: "少见",
     priority: 77,
-    condition: { jobs: ["education", "medical"], minAttributes: { career: 58, family: 50 } },
+    condition: { jobs: ["education", "medical"], minAttributes: { family: 50 } },
   },
   {
     id: "small-factory-keeper",
@@ -228,7 +228,7 @@ export const endings: Ending[] = [
     quote: "普通不是失败，是大多数人真实而温暖的活法。",
     rarity: "常见",
     priority: 70,
-    condition: { minAttributes: { family: 75, happiness: 70 } },
+    condition: { minAttributes: { family: 80, happiness: 75 } },
   },
   {
     id: "county-happy-life",
@@ -236,7 +236,7 @@ export const endings: Ending[] = [
     summary: "在熟悉的小城里，走完不急不缓的一生。幸福不在别处，就在日常。",
     quote: "小城的黄昏很慢，慢到可以看清幸福的样子。",
     rarity: "常见",
-    priority: 68,
+    priority: 71,
     condition: { requiredTags: ["县城生活家"], minAttributes: { happiness: 62 } },
   },
   {

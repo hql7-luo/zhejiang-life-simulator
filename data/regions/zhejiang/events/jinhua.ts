@@ -65,10 +65,10 @@ export const jinhuaEvents: LifeEvent[] = [
     id: "zj-jh-crossborder-entry",
     category: "地区",
     title: "把档口搬上网",
-    description: "朋友劝你把档口的货挂到跨境平台，说义乌的货放在海外仓也能卖，不用守店也能接单。",
+    description: "朋友劝你把手里的货挂到跨境平台，说浙江的货放在海外仓也能卖，不用守店也能接单。",
     stage: "职业",
-    years: 2,
-    condition: { minAge: 21, maxAge: 30, locations: ["jinhua"] },
+    years: 1,
+    condition: { minAge: 21, maxAge: 38, locations: ["jinhua", "hangzhou"] },
     choices: [
       { id: "start", text: "辞职开一家跨境店铺", effects: { attributes: { career: 5, entrepreneurship: 5, stress: 4 }, savings: -15000, jobId: "cross-border", addTags: ["跨境入行"] } },
       { id: "side", text: "白天守档口，晚上做运营", effects: { attributes: { career: 3, skill: 4, health: -2, stress: 5 }, jobId: "ecommerce-ops" } },
@@ -82,7 +82,7 @@ export const jinhuaEvents: LifeEvent[] = [
     description: "你上架的一款收纳盒被海外博主带火，后台订单一夜翻了四十倍，仓库和快递都开始告急。",
     stage: "职业",
     years: 1,
-    condition: { minAge: 22, maxAge: 35, locations: ["jinhua"], jobs: ["cross-border"], requiredTags: ["跨境入行"] },
+    condition: { minAge: 22, maxAge: 40, jobs: ["cross-border"] },
     choices: [
       { id: "expand", text: "借钱加库存，把爆款吃干榨尽", effects: { attributes: { money: 10, riskTolerance: 5, stress: 8 }, savings: -50000, investment: 80000, addTags: ["跨境爆单"] } },
       { id: "steady", text: "控制节奏，有多少货卖多少", effects: { attributes: { money: 5, stress: 2 }, savings: 30000, addTags: ["跨境爆单"] } },
@@ -170,7 +170,7 @@ export const jinhuaEvents: LifeEvent[] = [
     condition: { minAge: 23, maxAge: 33, locations: ["jinhua"], excludedTags: ["人生方向已定"] },
     choices: [
       { id: "hz", text: "去杭州做电商运营", effects: { attributes: { career: 6, cityAdapt: 4, network: 3 }, jobId: "ecommerce-ops", moveTo: "hangzhou", moveReason: "去杭州做电商", addTags: ["杭漂"] } },
-      { id: "sz", text: "去深圳闯跨境大卖", effects: { attributes: { career: 7, riskTolerance: 5, stress: 5 }, jobId: "cross-border", moveTo: "shenzhen", moveReason: "去深圳做跨境", addTags: ["深漂"] } },
+      { id: "sz", text: "去深圳闯跨境大卖", effects: { attributes: { career: 7, riskTolerance: 5, stress: 5 }, jobId: "cross-border", moveTo: "shenzhen", moveReason: "去深圳做跨境", addTags: ["深漂", "跨境入行"] } },
       { id: "stay", text: "留下，义乌的盘子还没吃完", effects: { attributes: { localNetwork: 5, money: 3, family: 3 }, addTags: ["扎根本地"] } },
     ],
   },
@@ -227,7 +227,7 @@ export const jinhuaEvents: LifeEvent[] = [
     choices: [
       { id: "clear", text: "亏本清仓，回笼资金", effects: { attributes: { stress: -4, money: -3, riskTolerance: 2 }, savings: -25000, addTags: ["断臂求生"] } },
       { id: "live", text: "找主播低价带货出清", effects: { attributes: { network: 3, money: 1, stress: 2 }, savings: -8000 } },
-      { id: "wait", text: "压着等行情回暖", effects: { attributes: { stress: 6, money: -2 }, debt: 20000 } },
+      { id: "wait", text: "压着等行情回暖", effects: { attributes: { stress: 6, money: -2 }, businessDebt: 20000 } },
     ],
   },
   {

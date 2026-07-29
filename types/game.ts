@@ -269,7 +269,13 @@ export interface AssetState {
   annualIncome: number;
   annualExpense: number;
   savings: number;
+  /** 房贷：与城市房价挂钩，按年金方式摊还 */
   mortgage: number;
+  /** 按揭时的固定年供（等额本息，放款时锁定；0 表示无房贷） */
+  mortgagePayment: number;
+  /** 经营负债：扩厂、担保、垫资产生，利率更高 */
+  businessDebt: number;
+  /** 普通负债：生活透支与个人借款 */
   otherDebt: number;
   house: HouseState;
   investments: number;
@@ -306,12 +312,21 @@ export interface RegionalEventCondition extends EventCondition {
   industries?: IndustryId[];
   /** 最少迁移次数 */
   minMigrations?: number;
+  /** 总负债（房贷+经营+普通）下限 */
+  minDebt?: number;
+  /** 非房贷负债（经营+普通）下限——用于债务重组等不应被房贷触发的事件 */
+  minPersonalDebt?: number;
+  /** 剩余房贷下限——用于退休房贷等明确指向月供的事件 */
+  minMortgage?: number;
 }
 
 export interface ChoiceEffects {
   attributes?: Partial<PlayerAttributes>;
   savings?: number;
+  /** 普通负债变化 */
   debt?: number;
+  /** 经营负债变化（扩厂、担保、垫资） */
+  businessDebt?: number;
   mortgage?: number;
   investment?: number;
   annualIncome?: number;
@@ -321,6 +336,8 @@ export interface ChoiceEffects {
   marriage?: MarriageStatus;
   children?: number;
   house?: HouseState;
+  /** 卖房还债：结清房贷、拿回净值、转为租房 */
+  sellHouse?: boolean;
   /** 迁移到新城市 */
   moveTo?: LocationId;
   /** 迁回出生城市 */
@@ -357,6 +374,12 @@ export interface LifeEvent {
   condition?: RegionalEventCondition;
   choices: EventChoice[];
   rare?: boolean;
+  /** 允许重复出现（升学、结婚、首次买房等人生节点绝不设置） */
+  repeatable?: boolean;
+  /** 重复出现的最小间隔年数，默认 6 */
+  cooldownYears?: number;
+  /** 一生最多出现次数，默认 3 */
+  maxOccurrences?: number;
 }
 
 export interface TimelineEntry {
@@ -454,12 +477,29 @@ export interface RegionPack {
   endings: Ending[];
 }
 
+export interface ChallengeGoal {
+  type: "yearsInLocation" | "tag" | "savingsByAge" | "noHouseHappy" | "keepTags";
+  location?: LocationId;
+  years?: number;
+  tag?: string;
+  tags?: string[];
+  amount?: number;
+  maxAge?: number;
+  minHappiness?: number;
+}
+
 export interface DailyChallenge {
   id: string;
   date: string;
   seed: string;
   title: string;
   description: string;
+  goal: ChallengeGoal;
+}
+
+export interface ChallengeResult {
+  completed: boolean;
+  reason: string;
 }
 
 export interface GameStats {
@@ -479,6 +519,8 @@ export interface GameState {
   currentEvent: LifeEvent | null;
   timeline: TimelineEntry[];
   recentEventIds: string[];
+  /** 可重复事件的出现记录：次数与上次发生时的年龄 */
+  eventOccurrences: Record<string, { count: number; lastAge: number }>;
   unlockedEventIds: string[];
   unlockedEndingIds: string[];
   unlockedAchievementIds: string[];

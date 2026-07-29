@@ -129,7 +129,7 @@ export const hangzhouEvents: LifeEvent[] = [
     condition: { minAge: 27, maxAge: 48, locations: ["hangzhou"], jobs: ["startup"], chance: 0.7 },
     choices: [
       { id: "downsize", text: "狠下心优化团队，保住核心", effects: { attributes: { stress: 9, network: -4, career: 2, riskTolerance: 3 }, addTags: ["高压生存者"] } },
-      { id: "bridge", text: "抵押房产续命，赌下一个季度", effects: { attributes: { stress: 10, riskTolerance: 7, career: 3 }, debt: 600000, addTags: ["负债经营"] } },
+      { id: "bridge", text: "抵押房产续命，赌下一个季度", effects: { attributes: { stress: 10, riskTolerance: 7, career: 3 }, businessDebt: 600000, addTags: ["负债经营"] } },
       { id: "close", text: "体面关停，把欠薪结清", effects: { attributes: { happiness: -5, stress: -3, emotional: 3 }, savings: -80000, jobId: "unemployed", addTags: ["创业失败"] } },
     ],
   },

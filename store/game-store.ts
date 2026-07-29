@@ -33,6 +33,7 @@ const initialState: GameState = {
   currentEvent: null,
   timeline: [],
   recentEventIds: [],
+  eventOccurrences: {},
   unlockedEventIds: [],
   unlockedEndingIds: [],
   unlockedAchievementIds: [],
@@ -116,6 +117,14 @@ export const useGameStore = create<GameStore>()(
           ...state.recentEventIds,
           state.currentEvent.id,
         ].slice(-6);
+        const previousOccurrence = state.eventOccurrences[state.currentEvent.id];
+        const eventOccurrences = {
+          ...state.eventOccurrences,
+          [state.currentEvent.id]: {
+            count: (previousOccurrence?.count ?? 0) + 1,
+            lastAge: state.player.age,
+          },
+        };
         const stats = {
           jobsHeld: result.player.careerHistory.length,
           jobChanges:
@@ -145,6 +154,7 @@ export const useGameStore = create<GameStore>()(
               ...new Set([...state.unlockedEndingIds, endingResult.ending.id]),
             ],
             recentEventIds,
+            eventOccurrences,
             stats,
           });
           return;
@@ -154,6 +164,7 @@ export const useGameStore = create<GameStore>()(
           state.seed,
           state.randomCursor + 1,
           recentEventIds,
+          eventOccurrences,
         );
         set({
           player: result.player,
@@ -161,6 +172,7 @@ export const useGameStore = create<GameStore>()(
           currentEvent: selected.event,
           randomCursor: selected.cursor,
           recentEventIds,
+          eventOccurrences,
           unlockedEventIds,
           unlockedAchievementIds,
           unlockedJobIds,

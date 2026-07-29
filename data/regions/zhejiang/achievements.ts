@@ -21,10 +21,10 @@ export const achievements: Achievement[] = [
   {
     id: "overseas-return",
     name: "海外归来",
-    description: "从海外回到国内继续人生。",
+    description: "在海外生活三年以上，又回到国内继续人生。",
     rarity: "稀有",
     icon: "归",
-    condition: { requiredTags: ["海外归来"] },
+    condition: { minYearsInLocation: { location: "overseas", years: 3 } },
   },
   {
     id: "zhejiang-tour",

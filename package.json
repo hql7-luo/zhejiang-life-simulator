@@ -13,7 +13,8 @@
     "start": "next start",
     "lint": "eslint app components data game store tests types utils tailwind.config.ts vitest.config.ts --max-warnings=0",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "simulate:endings": "tsx scripts/simulate-endings.ts"
   },
   "dependencies": {
     "framer-motion": "^11.18.2",
@@ -35,6 +36,7 @@
     "prettier": "^3.5.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.23.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.6"
   }

@@ -226,7 +226,7 @@ export const otherCityEvents: LifeEvent[] = [
     years: 3,
     condition: { minAge: 28, maxAge: 50, locations: ["huzhou"], minAttributes: { money: 30 } },
     choices: [
-      { id: "own", text: "贷款改造老宅，自己当民宿主", effects: { attributes: { entrepreneurship: 10, stress: 8, money: 5, localNetwork: 4 }, savings: -200000, debt: 300000, jobId: "self-employed", addTags: ["创业者", "慢生活"] } },
+      { id: "own", text: "贷款改造老宅，自己当民宿主", effects: { attributes: { entrepreneurship: 10, stress: 8, money: 5, localNetwork: 4 }, savings: -200000, businessDebt: 300000, jobId: "self-employed", addTags: ["创业者", "慢生活"] } },
       { id: "rent", text: "整租出去，每年稳收租金", effects: { attributes: { money: 6, stress: -2, happiness: 3 }, annualIncome: 80000 } },
       { id: "keep", text: "老宅留着，节假日自己住", effects: { attributes: { family: 5, happiness: 4, emotional: 3 } } },
     ],
@@ -367,7 +367,7 @@ export const otherCityEvents: LifeEvent[] = [
     years: 2,
     condition: { minAge: 40, maxAge: 55, locations: ["shaoxing"], jobs: ["textile", "family-successor", "factory-owner", "manufacturing"] },
     choices: [
-      { id: "upgrade", text: "借钱上数码印花，搏一次转型", effects: { attributes: { entrepreneurship: 8, stress: 9, familyIndustry: 6, riskTolerance: 6 }, savings: -400000, debt: 300000, addTags: ["设备升级"] } },
+      { id: "upgrade", text: "借钱上数码印花，搏一次转型", effects: { attributes: { entrepreneurship: 8, stress: 9, familyIndustry: 6, riskTolerance: 6 }, savings: -400000, businessDebt: 300000, addTags: ["设备升级"] } },
       { id: "shrink", text: "收缩规模，守住几个老客户", effects: { attributes: { stress: -3, happiness: 3, familyIndustry: 2 }, addTags: ["守住小厂"] } },
       { id: "exit", text: "把厂盘出去，落袋为安", effects: { attributes: { happiness: 5, stress: -6, money: 8, career: -4 }, savings: 800000, jobId: "unemployed" } },
     ],
@@ -565,7 +565,7 @@ export const otherCityEvents: LifeEvent[] = [
     years: 3,
     condition: { minAge: 26, maxAge: 50, locations: ["zhoushan"], minAttributes: { money: 25 } },
     choices: [
-      { id: "do", text: "借钱装修，旺季自己当店长", effects: { attributes: { entrepreneurship: 9, stress: 8, money: 5, localNetwork: 4 }, savings: -150000, debt: 200000, jobId: "self-employed", addTags: ["创业者"] } },
+      { id: "do", text: "借钱装修，旺季自己当店长", effects: { attributes: { entrepreneurship: 9, stress: 8, money: 5, localNetwork: 4 }, savings: -150000, businessDebt: 200000, jobId: "self-employed", addTags: ["创业者"] } },
       { id: "partner", text: "跟有经验的亲戚合伙，出钱不出力", effects: { attributes: { money: 4, stress: 3, family: 2 }, savings: -80000, annualIncome: 40000 } },
       { id: "keep", text: "算了，安安稳稳收租就好", effects: { attributes: { money: 3, stress: -2, happiness: 2 }, annualIncome: 20000 } },
     ],
@@ -706,7 +706,7 @@ export const otherCityEvents: LifeEvent[] = [
     years: 3,
     condition: { minAge: 27, maxAge: 50, locations: ["lishui"], minAttributes: { money: 25 } },
     choices: [
-      { id: "build", text: "把老屋改成山景民宿", effects: { attributes: { entrepreneurship: 9, money: 5, stress: 7, localNetwork: 4 }, savings: -180000, debt: 200000, jobId: "self-employed", addTags: ["创业者", "回乡发展"] } },
+      { id: "build", text: "把老屋改成山景民宿", effects: { attributes: { entrepreneurship: 9, money: 5, stress: 7, localNetwork: 4 }, savings: -180000, businessDebt: 200000, jobId: "self-employed", addTags: ["创业者", "回乡发展"] } },
       { id: "food", text: "不开民宿，做农家乐土菜馆", effects: { attributes: { entrepreneurship: 5, money: 4, stress: 4, family: 3 }, savings: -50000, jobId: "service" } },
       { id: "guide", text: "给民宿做向导和接送，赚服务费", effects: { attributes: { money: 3, network: 4, health: 2 }, jobId: "service", annualIncome: 50000 } },
     ],

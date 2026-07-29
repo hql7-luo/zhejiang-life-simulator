@@ -1,6 +1,6 @@
 import { jobMap } from "@/data/regions/zhejiang/careers";
 import { cityNameOf, cityProfileOf } from "@/data/regions/zhejiang/cities";
-import { simulateEconomy } from "@/game/economy";
+import { annualMortgagePayment, simulateEconomy } from "@/game/economy";
 import { recordMigration } from "@/game/migration";
 import { getLifeStage } from "@/game/stage";
 import { attributeLabels, clamp, formatCurrency } from "@/utils/format";
@@ -27,6 +27,10 @@ export function describeEffects(effects: ChoiceEffects): string[] {
   if (effects.debt)
     result.push(
       `负债 ${effects.debt > 0 ? "+" : ""}${formatCurrency(effects.debt)}`,
+    );
+  if (effects.businessDebt)
+    result.push(
+      `经营负债 ${effects.businessDebt > 0 ? "+" : ""}${formatCurrency(effects.businessDebt)}`,
     );
   if (effects.mortgage)
     result.push(`房贷 +${formatCurrency(effects.mortgage)}`);
@@ -64,10 +68,18 @@ export function applyChoice(
   next.assets.savings = Math.max(0, savingsAfterChoice);
   next.assets.otherDebt =
     Math.max(0, next.assets.otherDebt + (effects.debt ?? 0)) + uncoveredCost;
+  next.assets.businessDebt = Math.max(
+    0,
+    next.assets.businessDebt + (effects.businessDebt ?? 0),
+  );
   next.assets.mortgage = Math.max(
     0,
     next.assets.mortgage + (effects.mortgage ?? 0),
   );
+  // 新增房贷（加贷/换房）时按最新余额重签年供；部分提前还款则保持年供、缩短期限
+  if ((effects.mortgage ?? 0) > 0 && next.assets.mortgage > 0) {
+    next.assets.mortgagePayment = annualMortgagePayment(next.assets.mortgage);
+  }
   next.assets.investments = Math.max(
     0,
     next.assets.investments + (effects.investment ?? 0),
@@ -76,14 +88,32 @@ export function applyChoice(
     next.assets.annualIncome = effects.annualIncome;
   if (effects.annualExpense !== undefined)
     next.assets.annualExpense = effects.annualExpense;
-  if (effects.house) {
+  if (effects.sellHouse) {
+    // 卖房还债：按剩余房贷反推房价，扣除贷款后拿回部分净值
+    const estimatedPrice = next.assets.mortgage > 0 ? next.assets.mortgage / 0.7 : 600000;
+    const equity = Math.max(0, Math.round(estimatedPrice - next.assets.mortgage));
+    next.assets.savings += equity;
+    next.assets.mortgage = 0;
+    next.assets.mortgagePayment = 0;
+    next.assets.house = effects.house ?? "租房";
+    const tags = new Set(next.tags);
+    tags.delete("有房一族");
+    tags.delete("杭州买房");
+    next.tags = [...tags];
+  } else if (effects.house) {
     next.assets.house = effects.house;
     if (effects.house === "按揭住房" && next.assets.mortgage === 0) {
-      const cityHousePrice = cityProfileOf(next.currentLocation).housePrice;
-      next.assets.mortgage = Math.max(
-        400000,
-        Math.round((effects.mortgage ?? 900000) * cityHousePrice),
+      // 首付三成：房价 = 基准 × 城市房价系数，首付从存款扣除，不足部分计入普通负债
+      const price = Math.max(
+        500000,
+        Math.round((effects.mortgage ?? 900000) * cityProfileOf(next.currentLocation).housePrice),
       );
+      const downPayment = Math.round(price * 0.3);
+      next.assets.mortgage = price - downPayment;
+      next.assets.mortgagePayment = annualMortgagePayment(next.assets.mortgage);
+      const shortfall = Math.max(0, downPayment - next.assets.savings);
+      next.assets.savings = Math.max(0, next.assets.savings - downPayment);
+      next.assets.otherDebt += shortfall;
     }
     if (effects.house === "按揭住房" || effects.house === "全款住房") {
       const tags = new Set(next.tags);

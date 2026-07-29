@@ -83,6 +83,22 @@ export function eventConditionMet(
   )
     return false;
   if (
+    condition.minDebt !== undefined &&
+    player.assets.mortgage + player.assets.businessDebt + player.assets.otherDebt <
+      condition.minDebt
+  )
+    return false;
+  if (
+    condition.minPersonalDebt !== undefined &&
+    player.assets.businessDebt + player.assets.otherDebt < condition.minPersonalDebt
+  )
+    return false;
+  if (
+    condition.minMortgage !== undefined &&
+    player.assets.mortgage < condition.minMortgage
+  )
+    return false;
+  if (
     condition.chance !== undefined &&
     seededRandom(`${seed}:${condition.chance}`, cursor) > condition.chance
   )
@@ -108,7 +124,7 @@ export function achievementConditionMet(
     return false;
   if (
     condition.minDebt !== undefined &&
-    player.assets.otherDebt + player.assets.mortgage < condition.minDebt
+    player.assets.otherDebt + player.assets.businessDebt < condition.minDebt
   )
     return false;
   if (!attributesMeet(player.attributes, condition.minAttributes, condition.maxAttributes)) return false;

@@ -3,9 +3,11 @@
 import { useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { ArchiveIcon, CopyIcon, DownloadIcon, RestartIcon } from "@/components/ui/icons";
+import { getDailyChallenge } from "@/data/daily";
 import { familyBackgroundMap } from "@/data/regions/zhejiang/birth-profiles";
 import { jobMap } from "@/data/regions/zhejiang/careers";
 import { cities, cityNameOf } from "@/data/regions/zhejiang/cities";
+import { evaluateChallenge } from "@/game/challenge";
 import { livedLocations, returnHomeCount, yearsInLocation } from "@/game/migration";
 import { useGameStore } from "@/store/game-store";
 import { attributeLabels, formatCurrency, hiddenAttributeLabel } from "@/utils/format";
@@ -17,12 +19,16 @@ export function ReportScreen({ onArchive }: { onArchive: () => void }) {
   const timeline = useGameStore((state) => state.timeline);
   const stats = useGameStore((state) => state.stats);
   const seed = useGameStore((state) => state.seed);
+  const isDaily = useGameStore((state) => state.isDaily);
   const replaySameSeed = useGameStore((state) => state.replaySameSeed);
   const newLife = useGameStore((state) => state.newLife);
   const reportRef = useRef<HTMLDivElement>(null);
   const [notice, setNotice] = useState("");
 
   if (!player || !result) return null;
+
+  const dailyChallenge = isDaily ? getDailyChallenge() : null;
+  const challengeResult = dailyChallenge ? evaluateChallenge(dailyChallenge, player) : null;
 
   const background = familyBackgroundMap[player.birth.familyBackground];
   const route: LocationId[] = [
@@ -57,11 +63,23 @@ export function ReportScreen({ onArchive }: { onArchive: () => void }) {
     if (!reportRef.current) return;
     setNotice("正在生成结果卡片…");
     try {
+      // 等待字体与布局稳定，避免 iOS Safari 截到未渲染完成的内容
+      await document.fonts?.ready;
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const node = reportRef.current;
+      // 根据节点实际高度限制像素比，避免超出移动端 canvas 尺寸上限导致空白
+      const MAX_CANVAS_HEIGHT = 12000;
+      const pixelRatio = Math.max(
+        1,
+        Math.min(2, Math.floor((MAX_CANVAS_HEIGHT / Math.max(node.scrollHeight, 1)) * 10) / 10),
+      );
       const { toBlob } = await import("html-to-image");
-      const blob = await toBlob(reportRef.current, {
-        pixelRatio: 2,
+      const blob = await toBlob(node, {
+        pixelRatio,
         cacheBust: true,
         backgroundColor: "#f3efe5",
+        // 阴影与 backdrop-filter 在 iOS foreignObject 渲染中不稳定，导出时关闭
+        style: { boxShadow: "none", backdropFilter: "none" },
       });
       if (!blob) throw new Error("Unable to render report image");
       const objectUrl = URL.createObjectURL(blob);
@@ -74,9 +92,9 @@ export function ReportScreen({ onArchive }: { onArchive: () => void }) {
       window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
       setNotice("PNG 已下载");
     } catch {
-      setNotice("生成失败，请尝试浏览器截图");
+      setNotice("PNG 生成失败（浏览器兼容问题），可改用系统截图");
     }
-    window.setTimeout(() => setNotice(""), 2200);
+    window.setTimeout(() => setNotice(""), 2600);
   };
 
   return (
@@ -91,6 +109,22 @@ export function ReportScreen({ onArchive }: { onArchive: () => void }) {
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-cinnabar">Complete life archive / 浙江人生档案</p>
           <h1 className="mt-3 font-display text-4xl font-bold sm:text-5xl">这一生，落笔成卷</h1>
         </div>
+
+        {challengeResult && dailyChallenge && (
+          <div
+            className={`mx-auto mb-6 max-w-3xl rounded-sm border p-4 text-center ${
+              challengeResult.completed
+                ? "border-jade/30 bg-jade/[0.08] text-jade"
+                : "border-cinnabar/25 bg-cinnabar/[0.06] text-cinnabar"
+            }`}
+            role="status"
+          >
+            <p className="text-sm font-bold">
+              今日挑战「{dailyChallenge.title}」{challengeResult.completed ? "✓ 已完成" : "✗ 未完成"}
+            </p>
+            <p className="mt-1 text-xs opacity-80">{challengeResult.reason}</p>
+          </div>
+        )}
 
         <div ref={reportRef} className="paper-card mx-auto max-w-3xl overflow-hidden rounded-sm">
           <div className="grid bg-ink p-6 text-paper sm:grid-cols-[1fr_auto] sm:p-9">

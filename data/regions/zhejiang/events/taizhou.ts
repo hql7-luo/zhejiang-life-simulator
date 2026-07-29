@@ -68,7 +68,7 @@ export const taizhouEvents: LifeEvent[] = [
     description: "市里组织职业技能等级认定，拿下高级技师证书，月薪能涨一档，还能领人才补贴。",
     stage: "职业",
     years: 1,
-    condition: { minAge: 26, maxAge: 45, locations: ["taizhou"], jobs: ["mold-tech", "skilled-worker", "manufacturing"], minAttributes: { skill: 55 } },
+    condition: { minAge: 26, maxAge: 45, locations: ["taizhou"], jobs: ["mold-tech", "skilled-worker", "manufacturing"], minAttributes: { skill: 30 } },
     choices: [
       { id: "prep", text: "报班备考，一次拿下", effects: { attributes: { skill: 8, career: 6, stress: 4 }, savings: -5000, addTags: ["高级技师"] } },
       { id: "self", text: "不买课，靠自己刷题", effects: { attributes: { skill: 5, career: 4, stress: 5, intelligence: 2 }, addTags: ["高级技师"] } },
@@ -126,7 +126,7 @@ export const taizhouEvents: LifeEvent[] = [
     years: 3,
     condition: { minAge: 30, maxAge: 50, locations: ["taizhou"], jobs: ["factory-owner", "family-successor"] },
     choices: [
-      { id: "expand", text: "贷款扩产，搏一把", effects: { attributes: { career: 8, riskTolerance: 6, stress: 8 }, savings: -100000, debt: 400000, investment: 500000, addTags: ["扩厂"] } },
+      { id: "expand", text: "贷款扩产，搏一把", effects: { attributes: { career: 8, riskTolerance: 6, stress: 8 }, savings: -100000, businessDebt: 400000, investment: 500000, addTags: ["扩厂"] } },
       { id: "steady", text: "婉拒大单，维持现有规模", effects: { attributes: { stress: -3, riskTolerance: -3, money: 2 }, addTags: ["保守经营"] } },
       { id: "partner", text: "找同行联合接单，共担风险", effects: { attributes: { career: 4, localNetwork: 6, stress: 3, money: 3 }, addRelationship: { name: "老陈", type: "伙伴", affection: 55, trust: 58, status: "联合接单的同行", memories: ["一起分过那笔大单"] } } },
     ],
@@ -140,7 +140,7 @@ export const taizhouEvents: LifeEvent[] = [
     years: 2,
     condition: { minAge: 32, maxAge: 55, locations: ["taizhou"], jobs: ["factory-owner", "family-successor"] },
     choices: [
-      { id: "upgrade", text: "停产改造，上自动化产线", effects: { attributes: { career: 7, familyIndustry: 6, stress: 6 }, savings: -80000, debt: 200000, addTags: ["设备升级"] } },
+      { id: "upgrade", text: "停产改造，上自动化产线", effects: { attributes: { career: 7, familyIndustry: 6, stress: 6 }, savings: -80000, businessDebt: 200000, addTags: ["设备升级"] } },
       { id: "half", text: "先改一条线试试水", effects: { attributes: { career: 4, stress: 3, familyIndustry: 3 }, savings: -40000, addTags: ["设备升级"] } },
       { id: "keep", text: "守住老设备和老客户", effects: { attributes: { stress: -2, money: 1, familyIndustry: -2 }, addTags: ["守住小厂"] } },
     ],
@@ -225,7 +225,7 @@ export const taizhouEvents: LifeEvent[] = [
     condition: { minAge: 28, maxAge: 55, locations: ["taizhou"], jobs: ["factory-owner", "family-successor"] },
     choices: [
       { id: "raise", text: "涨工资、包食宿，先把人留住", effects: { attributes: { money: -3, career: 4, localNetwork: 3, stress: 3 }, savings: -50000 } },
-      { id: "automate", text: "咬牙再上一台机械手", effects: { attributes: { familyIndustry: 4, stress: 4, career: 3 }, savings: -60000, debt: 100000, addTags: ["机器换人"] } },
+      { id: "automate", text: "咬牙再上一台机械手", effects: { attributes: { familyIndustry: 4, stress: 4, career: 3 }, savings: -60000, businessDebt: 100000, addTags: ["机器换人"] } },
       { id: "shrink", text: "裁掉不赚钱的产线，收缩过冬", effects: { attributes: { money: 2, stress: -2, career: -2, emotional: -2 }, addTags: ["保守经营"] } },
     ],
   },
@@ -295,7 +295,7 @@ export const taizhouEvents: LifeEvent[] = [
     condition: { minAge: 30, maxAge: 55, locations: ["taizhou"], jobs: ["factory-owner", "family-successor"] },
     choices: [
       { id: "chase", text: "亲自上门催收，撕破脸也要回款", effects: { attributes: { money: 3, stress: 5, network: -2 }, savings: 60000 } },
-      { id: "bridge", text: "找民间借贷过桥，先还银行", effects: { attributes: { stress: 6, riskTolerance: 4, money: -2 }, debt: 150000 } },
+      { id: "bridge", text: "找民间借贷过桥，先还银行", effects: { attributes: { stress: 6, riskTolerance: 4, money: -2 }, businessDebt: 150000 } },
       { id: "sell", text: "卖掉一台旧设备应急", effects: { attributes: { money: 2, familyIndustry: -3, emotional: -2 }, savings: 80000 } },
     ],
   },

@@ -4,18 +4,41 @@ import { useState } from "react";
 import { achievements } from "@/data/regions/zhejiang/achievements";
 import { jobs } from "@/data/regions/zhejiang/careers";
 import { endings } from "@/data/regions/zhejiang/endings";
-import { eventCounts } from "@/data/regions/zhejiang/events";
+import {
+  commonEvents,
+  eventCounts,
+  hangzhouEvents,
+  hiddenEvents,
+  jinhuaEvents,
+  ningboEvents,
+  otherCityEvents,
+  taizhouEvents,
+  wenzhouEvents,
+} from "@/data/regions/zhejiang/events";
 import { ModalShell } from "@/components/panels/modal-shell";
 import { useGameStore } from "@/store/game-store";
 
+const eventPacks = [
+  ["common", "浙江通用", commonEvents],
+  ["hangzhou", "杭州", hangzhouEvents],
+  ["ningbo", "宁波", ningboEvents],
+  ["wenzhou", "温州", wenzhouEvents],
+  ["jinhua", "金华·义乌", jinhuaEvents],
+  ["taizhou", "台州", taizhouEvents],
+  ["other", "嘉湖绍衢舟丽", otherCityEvents],
+  ["hidden", "隐藏", hiddenEvents],
+] as const;
+
 export function ArchivePanel({ onClose }: { onClose: () => void }) {
-  const [tab, setTab] = useState<"overview" | "achievements" | "endings" | "jobs">("overview");
+  const [tab, setTab] = useState<"overview" | "events" | "achievements" | "endings" | "jobs">("overview");
+  const [packId, setPackId] = useState<(typeof eventPacks)[number][0]>("common");
   const unlockedEventIds = useGameStore((state) => state.unlockedEventIds);
   const unlockedAchievementIds = useGameStore((state) => state.unlockedAchievementIds);
   const unlockedEndingIds = useGameStore((state) => state.unlockedEndingIds);
   const unlockedJobIds = useGameStore((state) => state.unlockedJobIds);
   const tabs = [
     ["overview", "总览"],
+    ["events", "事件"],
     ["achievements", `成就 ${unlockedAchievementIds.length}/${achievements.length}`],
     ["endings", `结局 ${unlockedEndingIds.length}/${endings.length}`],
     ["jobs", `职业 ${unlockedJobIds.length}/${jobs.length - 2}`],
@@ -57,6 +80,45 @@ export function ArchivePanel({ onClose }: { onClose: () => void }) {
               ))}
             </div>
             <p className="mt-6 text-xs leading-6 text-ink/45">图鉴进度保存在本机浏览器。隐藏事件需要属性、标签和一点运气共同满足。</p>
+          </div>
+        )}
+        {tab === "events" && (
+          <div>
+            <div className="mb-4 flex flex-wrap gap-1.5">
+              {eventPacks.map(([id, label, pack]) => {
+                const unlockedCount = pack.filter((event) => unlockedEventIds.includes(event.id)).length;
+                return (
+                  <button
+                    className={`rounded-sm border px-3 py-1.5 text-xs font-bold ${packId === id ? "border-cinnabar bg-cinnabar text-white" : "border-ink/15 bg-white/55 text-ink/60 hover:bg-white"}`}
+                    key={id}
+                    onClick={() => setPackId(id)}
+                  >
+                    {label} {unlockedCount}/{pack.length}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {eventPacks
+                .find(([id]) => id === packId)![2]
+                .map((event) => {
+                  const unlocked = unlockedEventIds.includes(event.id);
+                  return (
+                    <article
+                      className={`rounded-sm border p-3.5 ${unlocked ? "border-jade/20 bg-jade/[0.05]" : "border-ink/8 bg-ink/[0.02] opacity-50"}`}
+                      key={event.id}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <h3 className="text-xs font-bold">{unlocked ? event.title : "未知事件"}</h3>
+                        <span className="shrink-0 text-[9px] text-ink/40">{event.category}{event.repeatable ? " · 可重复" : ""}</span>
+                      </div>
+                      <p className="mt-1.5 line-clamp-2 text-[11px] leading-5 text-ink/48">
+                        {unlocked ? event.description : "在人生的某个路口，它会出现。"}
+                      </p>
+                    </article>
+                  );
+                })}
+            </div>
           </div>
         )}
         {tab === "achievements" && (

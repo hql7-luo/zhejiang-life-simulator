@@ -51,3 +51,52 @@ describe("本地玩通三局（验收）", () => {
     });
   }
 });
+
+/**
+ * 发布前验收：24 局批量玩通（11 城 × 多策略），
+ * 全部必须走到结局并生成完整报告，且结局种类不少于 5 种。
+ */
+describe("批量玩通 24 局（发布验收）", () => {
+  const cities = [
+    "hangzhou", "ningbo", "wenzhou", "jiaxing", "huzhou", "shaoxing",
+    "jinhua", "quzhou", "zhoushan", "taizhou", "lishui",
+  ] as const;
+  const strategies = [
+    (turn: number, total: number) => turn % total, // 顺序轮换
+    () => 0, // 总选第一个
+    (_turn: number, total: number) => total - 1, // 总选最后一个
+    (turn: number, total: number) => (turn * 2 + 1) % total, // 跳跃
+  ];
+
+  it("24 局全部完整走到结局，且覆盖至少 5 种结局", () => {
+    const endingIds = new Set<string>();
+    const reports: string[] = [];
+    for (let index = 0; index < 24; index += 1) {
+      const city = cities[index % cities.length];
+      const pick = strategies[index % strategies.length];
+      const seed = `release-${index}`;
+      const birth = randomBirthProfile(seed, 1998, city);
+      useGameStore.getState().startGame(birth, seed);
+      let turn = 0;
+      while (useGameStore.getState().status === "playing" && turn < 150) {
+        const event = useGameStore.getState().currentEvent!;
+        const choice = event.choices[pick(turn, event.choices.length)]!;
+        useGameStore.getState().choose(choice.id);
+        turn += 1;
+      }
+      const state = useGameStore.getState();
+      expect(state.status).toBe("ended");
+      const result = state.endingResult!;
+      expect(result.ending.name).toBeTruthy();
+      expect(result.keywords.length).toBeGreaterThan(0);
+      expect(state.timeline.length).toBeGreaterThan(15);
+      endingIds.add(result.ending.id);
+      reports.push(
+        `${city} → ${result.ending.name}（${result.ending.rarity}）｜职业 ${state.player!.currentJob} ｜存款 ${Math.round(state.player!.assets.savings / 10000)}万`,
+      );
+    }
+    // eslint-disable-next-line no-console
+    console.log(`\n===== 24 局验收 =====\n${reports.join("\n")}\n结局种类：${endingIds.size}`);
+    expect(endingIds.size).toBeGreaterThanOrEqual(5);
+  });
+});
